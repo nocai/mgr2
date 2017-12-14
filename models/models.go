@@ -17,7 +17,7 @@ func init() {
 }
 
 func getDB() *sql.DB {
-	d, err := sql.Open("mysql", username + ":" + password + "@tcp(localhost:3306)/mgr?charset=utf8")
+	d, err := sql.Open("mysql", username + ":" + password + "@tcp(localhost:3306)/mgr?charset=utf8&parseTime=true")
 	if err != nil {
 		panic(err.Error())
 	}
