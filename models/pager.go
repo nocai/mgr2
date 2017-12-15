@@ -13,7 +13,7 @@ type Pager struct {
 }
 
 // New
-func New(pageNo, pageSize int64, total int64, pageList interface{}) *Pager {
+func NewPager(pageNo, pageSize int64, total int64, pageList interface{}) *Pager {
 	if pageNo <= 0 || pageSize <= 0 {
 		log.Panicln("The pageNo and pageSize can't be 0")
 	}

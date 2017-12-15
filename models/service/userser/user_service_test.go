@@ -12,6 +12,15 @@ func TestGetUserById(t *testing.T) {
 	assert.True(t, u != nil && u.Id == 1)
 }
 
+func TestPageUser(t *testing.T) {
+	pager := PageUser(1, 10, UserKey{
+		User: User{
+			Password: "a",
+		},
+	})
+	log.Println(pager)
+}
+
 func TestInvalidEnum(t *testing.T) {
 	assert.True(t, InvalidEnum(1).IsDefined(), "1 is defined")
 	assert.False(t, InvalidEnum(5).IsDefined(), "5 is not defined")

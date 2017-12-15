@@ -1,4 +1,4 @@
-package userctl
+package userouter
 
 import (
 	"github.com/gin-gonic/gin"
@@ -7,6 +7,11 @@ import (
 	"strconv"
 	"fmt"
 )
+
+func Route(r *gin.Engine) {
+	r.GET("/user/:id", GetUser)
+}
+
 
 func GetUser(c *gin.Context) {
 	id := c.Param("id")

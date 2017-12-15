@@ -10,7 +10,6 @@ type Sqler interface {
 	GetSql() string
 	GetCountSql() string
 	GetPageSql(pageNo, pageSize int64) string
-	GetPageCountSql(pageNo, pageSize int64) string
 
 	GetArgs() []interface{}
 
@@ -18,8 +17,8 @@ type Sqler interface {
 }
 
 type BaseSql struct {
-	sql   bytes.Buffer
-	args  []interface{}
+	sql  bytes.Buffer
+	args []interface{}
 }
 
 func (this BaseSql) GetSql() string {
@@ -38,7 +37,7 @@ func (this *BaseSql) AppendSqlAndArgs(sql string, arg interface{}) Sqler {
 
 func (this *BaseSql) GetCountSql() string {
 	if this.sql.Len() > 0 {
-		return "select count(*) from (" + this.sql.String() + ")"
+		return "select count(1) from (" + this.sql.String() + ") as tttttttttttttttttttttt"
 	}
 	panic(conf.MsgArgument)
 }
@@ -47,14 +46,6 @@ func (this *BaseSql) GetPageSql(pageNo, pageSize int64) string {
 	if pageNo > 0 && pageSize > 0 {
 		startIndex := (pageNo - 1) * pageSize
 		return this.GetSql() + " limit " + strconv.FormatInt(startIndex, 10) + ", " + strconv.FormatInt(pageSize, 10)
-	}
-	panic(conf.MsgArgument)
-}
-
-func (this *BaseSql) GetPageCountSql(pageNo, pageSize int64) string {
-	if pageNo > 0 && pageSize > 0 {
-		startIndex := (pageNo - 1) * pageSize
-		return this.GetCountSql() + " limit " + strconv.FormatInt(startIndex, 10) + ", " + strconv.FormatInt(pageSize, 10)
 	}
 	panic(conf.MsgArgument)
 }

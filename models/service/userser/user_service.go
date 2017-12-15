@@ -107,8 +107,35 @@ func QueryUser(key UserKey) []User {
 	return result
 }
 
-func PageUser(pageNo, pageSize int64, key User) *models.Pager {
-return nil
+func PageUser(pageNo, pageSize int64, key UserKey) *models.Pager {
+	sqler := key.GetSqler()
+
+	db := models.GetDB()
+	row := db.QueryRow(sqler.GetCountSql(), sqler.GetArgs()...)
+
+	var total int64
+	if err := row.Scan(&total); err != nil {
+		panic(err)
+	}
+
+	rows, err := db.Query(sqler.GetPageSql(pageNo, pageSize), sqler.GetArgs()...)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+
+	var pageList []User
+	for rows.Next() {
+		var temp User
+		if err := rows.Scan(&temp.Id, &temp.Username, &temp.Password, &temp.GmtCreate, &temp.GmtUpdate, &temp.Invalid); err != nil {
+			panic(err)
+		}
+		pageList = append(pageList, temp)
+	}
+	if rows.Err() != nil {
+		panic(err)
+	}
+	return models.NewPager(pageNo, pageSize, total, pageList)
 }
 
 func GetUserById(id int64) *User {
@@ -118,8 +145,8 @@ func GetUserById(id int64) *User {
 	}
 
 	users := QueryUser(UserKey{
-		User:User{
-			Id:id,
+		User: User{
+			Id: id,
 		},
 	})
 	if users != nil && len(users) > 0 {
