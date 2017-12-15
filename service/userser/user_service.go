@@ -4,7 +4,7 @@ import (
 	"log"
 	"mgr2/models"
 	"time"
-	"mgr2/models/service"
+	"mgr2/service"
 )
 
 type InvalidEnum int
@@ -48,8 +48,8 @@ type UserKey struct {
 }
 
 func (this UserKey) GetSqler() models.Sqler {
-	sqler := models.NewDefaultSqler("select t.id, t.username, t.password, t.create_time, t.update_time, t.invalid from t_mgr_user t where 1 = 1")
-
+	//sqler := models.NewDefaultSqler("select t.id, t.username, t.password, t.create_time, t.update_time, t.invalid from t_mgr_user t where 1 = 1")
+	sqler := models.NewDefaultSqler("select t.* from t_mgr_user t where 1 = 1")
 	if this.Id != 0 {
 		sqler.AppendSqlAndArgs(" and t.id = ?", this.Id)
 	}
@@ -98,6 +98,9 @@ func QueryUser(key UserKey) []User {
 		if err := rows.Scan(&temp.Id, &temp.Username, &temp.Password, &temp.GmtCreate, &temp.GmtUpdate, &temp.Invalid); err != nil {
 			panic(err)
 		}
+		//if err := rows.Scan(&temp); err != nil {
+		//	panic(err)
+		//}
 		result = append(result, temp)
 	}
 	if err := rows.Err(); err != nil {

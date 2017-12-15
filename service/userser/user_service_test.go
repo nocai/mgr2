@@ -3,8 +3,7 @@ package userser
 import (
 	"testing"
 	"github.com/stretchr/testify/assert"
-	"os"
-	"log"
+	"mgr2/log"
 )
 
 func TestGetUserById(t *testing.T) {
@@ -18,7 +17,8 @@ func TestPageUser(t *testing.T) {
 			Password: "a",
 		},
 	})
-	log.Println(pager)
+	_ = pager
+	//log.Println(pager)
 }
 
 func TestInvalidEnum(t *testing.T) {
@@ -26,12 +26,17 @@ func TestInvalidEnum(t *testing.T) {
 	assert.False(t, InvalidEnum(5).IsDefined(), "5 is not defined")
 }
 
-func TestB(t *testing.T) {
-	var std = log.New(os.Stderr, "", log.LstdFlags)
-	std.SetPrefix("TEST")
-	std.Println("a")
-	//std.Panicln("panic")
-	//std.Fatalln("exit")
-	//std.Println("b")
+//func TestB(t *testing.T) {
+//	var std = log.New(os.Stderr, "", log.LstdFlags)
+//	std.SetPrefix("TEST")
+//	std.Println("a")
+//	//std.Panicln("panic")
+//	//std.Fatalln("exit")
+//	//std.Println("b")
+//
+//}
 
+func TestLog(t *testing.T) {
+l := 	log.New()
+l.Println("aaaaaaa")
 }
